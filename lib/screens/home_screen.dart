@@ -7,21 +7,41 @@
 // ╚═╝  ╚═╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝
 //.....................................
 
-import 'package:flutter/foundation.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:weinflu/design/design.dart';
 import 'package:weinflu/widgets/widgets.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
    
   const HomeScreen({Key? key}) : super(key: key);
-  
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+
+    final items = <Widget> [
+      const Icon( Icons.monetization_on_outlined, color: Colors.white ),
+      const Icon( FontAwesomeIcons.heart, color: Colors.white ),
+      const Icon( Icons.line_axis, color: Colors.white ),
+    ];
+
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 90,  //Altura del AppBar.
+        toolbarHeight: 60,  //Altura del AppBar.
         backgroundColor: WeinFluColors.brandLightColor, //Color de fondo para el AppBar.
 
         shape: const RoundedRectangleBorder( //Bordeado del AppBar.
@@ -32,7 +52,7 @@ class HomeScreen extends StatelessWidget {
         ),
 
         title: const Padding(
-          padding: EdgeInsets.fromLTRB( 16, 45, 16, 12 ),
+          padding: EdgeInsets.fromLTRB( 16, 15, 16, 12 ), //Left. Tpp, Right, Bottom
 
           child: AppBarTittle(), //Diseño general del AppBar.
         ),
@@ -40,15 +60,20 @@ class HomeScreen extends StatelessWidget {
         centerTitle: true,
       ),
       
-      body: Column(
+      body: const Column(
         children: [
-          const TopHomePageBody(),
+          TopHomePageBody(), //Diseño del recuadro azul
 
-          MidHomePageBody(
-            categoryButton: ButtonStyle( backgroundColor: MaterialStateProperty.all( Colors.white54 ) ),
-            recentTransactionButton: ButtonStyle( backgroundColor: MaterialStateProperty.all( Colors.white54 ) ),
-          ),
+          Expanded( child: CategoriesWidged() ),
         ], //Children[]
+      ),
+
+      bottomNavigationBar: CurvedNavigationBar(
+        height: 55,
+        backgroundColor: Colors.transparent,
+        color: Colors.blue.shade800,
+        items: items,
+        
       ),
     );
   }
@@ -61,7 +86,7 @@ class TopHomePageBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all( 16 ),
+      padding: const EdgeInsets.only( right: 16, left: 16 ),
       width: MediaQuery.of(context).size.width,
       transform: Matrix4.translationValues( 0, -12, 0 ),
 
@@ -88,7 +113,7 @@ class TopHomePageBody extends StatelessWidget {
         ),
       ),
 
-      height: 380,
+      height: 350,
 
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,7 +121,7 @@ class TopHomePageBody extends StatelessWidget {
         children: [
           Container(
             //color: Colors.red,
-            margin: const EdgeInsets.only( top: 56 ),
+            margin: const EdgeInsets.only( top: 30 ),
 
             child: Text(
               'Mi Saldo',
@@ -108,12 +133,14 @@ class TopHomePageBody extends StatelessWidget {
             amount: 3500000.00,
             amountStyle: Theme.of(context).textTheme.displayLarge!,
 
-            amountStyleSmall: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: WeinFluColors.brandLightColor,
-            ),
+            // amountStyleSmall: const TextStyle(
+            //   fontSize: 16,
+            //   fontWeight: FontWeight.bold,
+            //   color: WeinFluColors.brandLightColor,
+            // ),
           ),
+
+          const SizedBox( height: 5 ),
 
           const SumaryCard(
             typeSumaryCard: TypeSumaryCard.incomes,
@@ -136,11 +163,16 @@ class MidHomePageBody extends StatelessWidget {
 
   final ButtonStyle categoryButton;
   final ButtonStyle recentTransactionButton;
+  final void Function()? categoriesBtnAction;
+  final void Function()? recentBtnAction;
 
-  const MidHomePageBody({super.key, required this.categoryButton, required this.recentTransactionButton, });
+  const MidHomePageBody({super.key, required this.categoryButton, required this.recentTransactionButton, this.categoriesBtnAction, this.recentBtnAction, });
 
   @override
   Widget build(BuildContext context) {
+
+    
+
     return Container(
       padding: const EdgeInsets.only( left: 16, right: 16 ),
       height: 104,
@@ -154,16 +186,14 @@ class MidHomePageBody extends StatelessWidget {
           bottomLeft: Radius.circular( 16 ),
           bottomRight: Radius.circular( 16 ),
         ),
-      ),
+      ), 
 
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
 
         children: [
           ElevatedButton(
-            onPressed: () {
-              print( 'Categorías ');
-            },
+            onPressed: categoriesBtnAction,
 
             style: categoryButton,
 
@@ -177,9 +207,7 @@ class MidHomePageBody extends StatelessWidget {
           const SizedBox( width: 10 ),
 
           ElevatedButton(
-            onPressed: () {
-              print( 'Reciente ');
-            },
+            onPressed: recentBtnAction,
 
             style: recentTransactionButton,
 
@@ -190,6 +218,89 @@ class MidHomePageBody extends StatelessWidget {
             ),
           ),
         ], //Children[]
+      ),
+    );
+  }
+}
+
+class CategoriesWidged extends StatelessWidget {
+  const CategoriesWidged({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      physics: const BouncingScrollPhysics(),
+
+      children: const [
+        // TextButton(
+        //   style: const ButtonStyle(
+        //     //backgroundColor: MaterialStatePropertyAll( Colors.red ),
+        //     alignment: Alignment.centerRight,
+        //   ),
+        
+        //   onPressed: () {
+        //     print( 'Categoría uno' );
+        //   },
+        
+        //   child: const Text(
+        //     'View all',
+        
+        //     style: TextStyle(
+        //       fontWeight: FontWeight.bold,
+        //       color: Color.fromRGBO( 53, 97, 254, 1),
+        //     ),
+        //   ),
+        // ),
+
+        ProductDetail(
+          pathToProductImage: 'assets/images/fast-food.png',
+          amount: 150000,
+          productName: 'Comidas',
+          currentSells: '25000',
+          percentage: '1.8',
+          typeProductDetailCard: TypeProductDetailCard.outcomes,
+        ),
+
+        ProductDetail(
+          pathToProductImage: 'assets/images/motorbike.png',
+          amount: 50000,
+          productName: 'Gasolina',
+          currentSells: '15000',
+          percentage: '12',
+          typeProductDetailCard: TypeProductDetailCard.incomes,
+        ),
+
+        ProductDetail(
+          pathToProductImage: 'assets/images/game-console.png',
+          amount: 50000,
+          productName: 'Video Juegos',
+          currentSells: '38500',
+          percentage: '5',
+          typeProductDetailCard: TypeProductDetailCard.incomes,
+        ),
+
+        ProductDetail(
+          pathToProductImage: 'assets/images/delivery-box.png',
+          amount: 200000,
+          productName: 'Otras compras',
+          currentSells: '0',
+          percentage: '0',
+          typeProductDetailCard: TypeProductDetailCard.incomes,
+        ),
+      ], //Children[]
+    );
+  }
+}
+
+class RecentTransactions extends StatelessWidget {
+  const RecentTransactions({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text(
+        'Este es el reto',
+        style: Theme.of(context).textTheme.headlineLarge,
       ),
     );
   }

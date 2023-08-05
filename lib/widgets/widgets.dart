@@ -12,3 +12,5 @@ export 'package:weinflu/widgets/appbar_title.dart';
 export 'package:weinflu/widgets/money_display.dart';
 
 export 'package:weinflu/widgets/sumary_card.dart';
+
+export 'package:weinflu/widgets/product_detail.dart';

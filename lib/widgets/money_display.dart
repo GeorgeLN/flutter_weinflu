@@ -13,14 +13,14 @@ import 'package:intl/intl.dart';
 class MoneyDisplay extends StatelessWidget {
   final double amount; //Monto de dinero.
   final TextStyle amountStyle; //Estilo de texto para el monto de dinero
-  final TextStyle amountStyleSmall; //Estilo de texto para el valor después de la coma al final.
+  //final TextStyle amountStyleSmall; //Estilo de texto para el valor después de la coma al final.
   final EdgeInsets? padding;
 
   const MoneyDisplay({
     super.key,
     required this.amount,
     required this.amountStyle,
-    required this.amountStyleSmall,
+    //required this.amountStyleSmall,
     this.padding,
   });
 
@@ -54,10 +54,10 @@ class MoneyDisplay extends StatelessWidget {
                 style: amountStyle,
               ),
 
-              TextSpan(
-                text: ',${ splitConvertedValues[1] }',
-                style: amountStyleSmall,
-              ),
+              // TextSpan(
+              //   text: ',${ splitConvertedValues[1] }',
+              //   style: amountStyleSmall,
+              // ),
             ], //Children[]
           ),
         )

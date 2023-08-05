@@ -34,7 +34,7 @@ class AppBarTittle extends StatelessWidget {
 
         Expanded(
           child: Text(
-            'George 👨🏾‍💻',
+            'Jorge López',
             style: Theme.of(context).textTheme.headlineLarge, //Se toma de la clase "WeinfluThemes" con la extensión *of(context)*
           ),
         ),
@@ -47,7 +47,7 @@ class AppBarTittle extends StatelessWidget {
             ),
 
             onPressed: () {
-              print( 'Hola, han presionado el botón de notificaciones.' );  
+              print( 'Hola, han presionado el botón de notificaciones.' );
             },
           ),
         ),
