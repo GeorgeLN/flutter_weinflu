@@ -58,7 +58,7 @@ class AppBarTittle extends StatelessWidget {
           iconButton: IconButton(
             icon: const Icon(
               Icons.more_vert,
-              color: WeinFluColors.brandPrimaryColor
+              color: WeinFluColors.brandPrimaryColor,
             ),
 
             onPressed: () {

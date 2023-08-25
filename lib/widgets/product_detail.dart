@@ -5,6 +5,7 @@ import 'package:weinflu/widgets/widgets.dart';
 enum TypeProductDetailCard { incomes, outcomes }
 
 class ProductDetail extends StatelessWidget {
+  
   final String pathToProductImage;
   final double amount;
   final String productName;
@@ -12,14 +13,15 @@ class ProductDetail extends StatelessWidget {
   final String percentage;
   final TypeProductDetailCard typeProductDetailCard;
 
-  const ProductDetail(
-      {super.key,
-      required this.pathToProductImage,
-      required this.amount,
-      required this.productName,
-      required this.currentSells,
-      required this.percentage,
-      required this.typeProductDetailCard});
+  const ProductDetail({
+    super.key,
+    required this.pathToProductImage,
+    required this.amount,
+    required this.productName,
+    required this.currentSells,
+    required this.percentage,
+    required this.typeProductDetailCard
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,31 +30,36 @@ class ProductDetail extends StatelessWidget {
       size: 20,
       color: WeinFluColors.brandOnSuccessColor,
     );
+
     var iconSpending = const Icon(
       Icons.expand_more,
       size: 20,
       color: WeinFluColors.brandOnErrorColor,
     );
+
     var currentBgPercentageColor = WeinFluColors.brandSuccessColor;
     var currentTextPercentageColor = WeinFluColors.brandOnSuccessColor;
     var currentIcon = iconIncomes;
+
     if (typeProductDetailCard == TypeProductDetailCard.outcomes) {
       currentBgPercentageColor = WeinFluColors.brandErrorColor;
       currentTextPercentageColor = WeinFluColors.brandOnErrorColor;
       currentIcon = iconSpending;
     }
+
     return Container(
-      margin: const EdgeInsets.only(
-        top: 14,
-      ),
+      margin: const EdgeInsets.only( top: 14 ),
       height: 111,
       decoration: const BoxDecoration(
         shape: BoxShape.rectangle,
         color: WeinFluColors.brandLightColor,
         borderRadius: BorderRadius.all(Radius.circular(16)),
       ),
+
       child: Row(
+
         children: [
+
           Container(
             margin: const EdgeInsets.only(left: 16),
             height: 79,
@@ -69,6 +76,7 @@ class ProductDetail extends StatelessWidget {
                       DecorationImage(image: AssetImage(pathToProductImage))),
             ),
           ),
+
           Expanded(
             child: Container(
               padding: const EdgeInsets.only(top: 16, left: 16),
@@ -78,25 +86,30 @@ class ProductDetail extends StatelessWidget {
                   Text(
                     productName,
                     textAlign: TextAlign.left,
+
                     style: const TextStyle(
-                        color: WeinFluColors.brandDarkColor,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: 'RobotoMono',
-                        fontSize: 18),
+                      color: WeinFluColors.brandDarkColor,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: 'RobotoMono',
+                      fontSize: 18,
+                    ),
                   ),
+                  
                   Padding(
-                    padding: const EdgeInsets.only(top: 15.0),
+                    padding: const EdgeInsets.only( top: 15 ),
                     child: Text(
                       '+ \$ $currentSells Today',
+
                       style: const TextStyle(
-                          color: WeinFluColors.brandLigthDarkColor,
-                          fontFamily: 'RobotoMono',
-                          fontSize: 10),
+                        color: WeinFluColors.brandLigthDarkColor,
+                        fontFamily: 'RobotoMono',
+                        fontSize: 10
+                      ),
                     ),
                   ),
 
                   MoneyDisplay(
-                    padding: const EdgeInsets.only(top:4, right: 2),
+                    padding: const EdgeInsets.only( top: 0.5, right: 2 ),
                     amount: amount,
 
                     amountStyle: const TextStyle(
@@ -115,6 +128,7 @@ class ProductDetail extends StatelessWidget {
               ),
             ),
           ),
+
           Container(
             margin: const EdgeInsets.only(
               bottom: 70,
@@ -122,9 +136,12 @@ class ProductDetail extends StatelessWidget {
             ),
             height: 19,
             width: 55,
+
             decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(19)),
-                color: currentBgPercentageColor),
+              borderRadius: const BorderRadius.all( Radius.circular(19) ),
+              color: currentBgPercentageColor,
+            ),
+
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -132,8 +149,9 @@ class ProductDetail extends StatelessWidget {
                 Text(
                   '$percentage %',
                   style: TextStyle(
-                      fontSize: 10, color: currentTextPercentageColor),
-                )
+                    fontSize: 10, color: currentTextPercentageColor
+                  ),
+                ),
               ],
             ),
           )

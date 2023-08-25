@@ -9,9 +9,11 @@
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+//import 'package:font_awesome_flutter/font_awesome_flutter.dart'; -> Para el ítem "Hearth"
 
 import 'package:weinflu/design/design.dart';
+import 'package:weinflu/models/user.dart';
+import 'package:weinflu/screens/screens.dart';
 import 'package:weinflu/widgets/widgets.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -33,9 +35,13 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
 
+    final userData = User( 'Jorge López', 26 );
+    int _currentPage = 0;
+    PageController _pageController = PageController();
+
     final items = <Widget> [
       const Icon( Icons.monetization_on_outlined, color: Colors.white ),
-      const Icon( FontAwesomeIcons.heart, color: Colors.white ),
+      //const Icon( FontAwesomeIcons.heart, color: Colors.white ),
       const Icon( Icons.line_axis, color: Colors.white ),
     ];
 
@@ -60,20 +66,50 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: true,
       ),
       
-      body: const Column(
-        children: [
-          TopHomePageBody(), //Diseño del recuadro azul
+      body: PageView(
+        controller: _pageController,
+        physics: const NeverScrollableScrollPhysics(),
 
-          Expanded( child: CategoriesWidged() ),
-        ], //Children[]
+        onPageChanged: (value) {
+          setState(() {
+            _currentPage = value;
+          });
+        },
+        
+        children: [
+
+          //Screen principal, 
+          const Column(
+            children: [
+              TopHomePageBody(), //Diseño del recuadro azul
+      
+              Expanded( child: CategoriesWidged() ),
+            ], //Children[]
+          ),
+
+          GraphicScreen(userData: userData ),
+        ],
       ),
 
       bottomNavigationBar: CurvedNavigationBar(
-        height: 55,
+        index: _currentPage,
         backgroundColor: Colors.transparent,
         color: Colors.blue.shade800,
+        height: 55,
         items: items,
         
+        onTap: ( value ) {
+          setState(() {
+            _currentPage = value;
+
+            _pageController.animateToPage(
+              value,
+              duration: const Duration( milliseconds: 300 ),
+              curve: Curves.easeInOut,
+            );
+          });
+        },
+        //CONTINUE HERE
       ),
     );
   }
@@ -170,8 +206,6 @@ class MidHomePageBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    
 
     return Container(
       padding: const EdgeInsets.only( left: 16, right: 16 ),
@@ -288,20 +322,6 @@ class CategoriesWidged extends StatelessWidget {
           typeProductDetailCard: TypeProductDetailCard.incomes,
         ),
       ], //Children[]
-    );
-  }
-}
-
-class RecentTransactions extends StatelessWidget {
-  const RecentTransactions({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        'Este es el reto',
-        style: Theme.of(context).textTheme.headlineLarge,
-      ),
     );
   }
 }
