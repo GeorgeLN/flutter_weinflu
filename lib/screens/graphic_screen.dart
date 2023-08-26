@@ -13,28 +13,34 @@ class GraphicScreen extends StatelessWidget {
 
     return Scaffold(
       body: SingleChildScrollView(
-        child: Stack(
-
+        child: Column(
           children: [
 
-            const Padding(
-              padding: EdgeInsets.symmetric( horizontal: 135, vertical: 15 ), //only( top: 8, bottom: 8, left: 8, right: 8 ),
+            SizedBox( // O Container
+              width: MediaQuery.of(context).size.width,
+              height: 30,
 
-              child: Text(
-                'DIAGRAMAS',
-                style: TextStyle( fontSize: 15, fontWeight: FontWeight.bold ),
+              child: const Padding(
+                padding: EdgeInsets.only( top: 15 ),
+
+                child: Text(
+                  'DIAGRAMAS DE COMPARACIÓN',
+                  textAlign: TextAlign.center,
+                  style: TextStyle( fontSize: 15, fontWeight: FontWeight.bold ),
+                ),
               ),
             ),
-            
-            Padding(
-              padding: const EdgeInsets.only( right: 20, left: 10, top: 30 ),
+
+            Container(
+              width: MediaQuery.of(context).size.width,
+              padding: const EdgeInsets.only( left: 15, right: 20, bottom: 20, top: 5 ),
 
               child: AspectRatio(
                 aspectRatio: 1,
                   
                 child: LineChart(
+
                   LineChartData(
-                  
                     lineBarsData: [
                       LineChartBarData(
                         spots: const [ //Puntos que se dibujarán en la función.
@@ -62,13 +68,13 @@ class GraphicScreen extends StatelessWidget {
                     ], //lineBarsData[]
                   
                     backgroundColor: Colors.grey.withOpacity( 0.3 ), //Color de fondo para el gráfico
-                  
+                    
                     titlesData: FlTitlesData( //Opción para dar título cada parte del gráfico (arriba, abajo, izquierda y derecha).
                       show: true, // Si se coloca "false", eliminará todos los datos de la gráfica y sólo se dejará el diagrama.
-                  
+
                       bottomTitles: AxisTitles( //Bottom = Abajo - Asigna título y propiedades a la parte baja del diagrama.
                         axisNameWidget: const Text( 'Día de la semana' ),
-                  
+                        
                         sideTitles: SideTitles(
                           showTitles: true,
                           reservedSize: 20,
@@ -102,7 +108,7 @@ class GraphicScreen extends StatelessWidget {
                         sideTitles: SideTitles(
                           showTitles: true,
                           reservedSize: 30,
-                        )
+                        ),
                       ),
                   
                       topTitles: const AxisTitles(
@@ -118,9 +124,8 @@ class GraphicScreen extends StatelessWidget {
             
                         sideTitles: SideTitles(
                           showTitles: false,
-                        )
-                      )
-                      
+                        ),
+                      ),
                     ),
                   
                     //Darle diseño a las líneas del gráfico.
@@ -138,40 +143,86 @@ class GraphicScreen extends StatelessWidget {
               ),
             ),
 
-            const SizedBox( height: 5 ),
+            const SizedBox( height: 10 ),
 
-            Padding(
-              padding: const EdgeInsets.only( left: 30, right: 30, top: 390, bottom: 30 ),
+            Row(
+              //mainAxisAlignment: MainAxisAlignment.center,
 
-              child: Stack(
-
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 350,
-              
-                    child: PieChart( //Diagrama circular (Diagrama de Pizza).
-                      PieChartData(
-                        centerSpaceRadius: 50,
-                        borderData: FlBorderData( show: false ),
-                        sectionsSpace: 1,
-              
-                        sections: [
-                          PieChartSectionData( value: 35, color: Colors.purple, radius: 100 ),
-                          PieChartSectionData( value: 40, color: Colors.yellow, radius: 100 ),
-                          PieChartSectionData( value: 55, color: Colors.green, radius: 100 ),
-                          PieChartSectionData( value: 70, color: Colors.orange, radius: 100 ),
-                          PieChartSectionData( value: 30, color: Colors.blueAccent, radius: 100 ),
-                        ], // sections[]
-                      )
-                    ),
+              children: [
+                Container(
+                  width: 220,
+                  height: 240,
+                  //padding: const EdgeInsets.only( right: 20 ),
+                
+                  child: PieChart( //Diagrama circular (Diagrama de Pizza).
+                    PieChartData(
+                      centerSpaceRadius: 20,
+                      borderData: FlBorderData( show: false ),
+                      sectionsSpace: 0,
+                
+                      sections: [
+                        PieChartSectionData( value: 35, color: Colors.purpleAccent, radius: 80 ),
+                        PieChartSectionData( value: 40, color: Colors.yellow, radius: 80 ),
+                        PieChartSectionData( value: 55, color: Colors.green, radius: 80 ),
+                        PieChartSectionData( value: 70, color: Colors.orange, radius: 80 ),
+                        PieChartSectionData( value: 30, color: Colors.blueAccent, radius: 80 ),
+                      ], // sections[]
+                    )
                   ),
-                ],
-              ),
-            )
+                ),
+
+                const SizedBox( width: 5 ),
+
+                Container(
+                  width: 125,
+                  height: 240,
+
+                  child: const Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    
+                    children: [
+                      ItemPieChart( colors: Colors.blueAccent, text: 'PORCENTAJE 1' ),
+                      SizedBox( height: 10 ),
+                      ItemPieChart( colors: Colors.purpleAccent, text: 'PORCENTAJE 2' ),
+                      SizedBox( height: 10 ),
+                      ItemPieChart( colors: Colors.yellow, text: 'PORCENTAJE 3' ),
+                      SizedBox( height: 10 ),
+                      ItemPieChart( colors: Colors.green, text: 'PORCENTAJE 4' ),
+                      SizedBox( height: 10 ),
+                      ItemPieChart( colors: Colors.orange, text: 'PORCENTAJE 5' ),
+                    ], //Children[]
+                  ),
+                )
+              ], //Children[]
+            ),
+
+            const SizedBox( height: 10)
           ], // Children[]
         ),
       ),
+    );
+  }
+}
+
+class ItemPieChart extends StatelessWidget {
+  final Color colors;
+  final String text;
+
+  const ItemPieChart({
+    super.key, required this.colors, required this.text,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Icon(
+          Icons.circle,
+          color: colors,
+        ),
+
+        Text( text ),
+      ],
     );
   }
 }

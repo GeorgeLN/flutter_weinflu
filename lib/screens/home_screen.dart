@@ -46,14 +46,15 @@ class _HomeScreenState extends State<HomeScreen> {
     ];
 
     return Scaffold(
+
       appBar: AppBar(
         toolbarHeight: 60,  //Altura del AppBar.
         backgroundColor: WeinFluColors.brandLightColor, //Color de fondo para el AppBar.
 
         shape: const RoundedRectangleBorder( //Bordeado del AppBar.
           borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular( 16 ),
-            bottomRight: Radius.circular( 16 ),
+            bottomLeft: Radius.circular( 5 ),
+            bottomRight: Radius.circular( 5 ),
           ),
         ),
 
